@@ -20,28 +20,21 @@ class _RegistrationState extends State<Registration> {
 
   void registerUser(BuildContext context) async {
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      print("Register user");
       var regBody = {
         "email": emailController.text,
         "password": passwordController.text
       };
 
-      var response = await http.post(
-          Uri.http('192.168.100.49:3000', '/register'),
+      var response = await http.post(Uri.http(url, '/register'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(regBody));
 
       var jsonResponse = jsonDecode(response.body);
-      // print(response.body);
-
-      // print(jsonResponse['status']);
-
       if (jsonResponse['status']) {
-        print("Navigotrr");
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SignInPage()));
       } else {
-        print("SomeThing Went Wrong");
+        print("Something Went Wrong");
       }
     } else {
       setState(() {
@@ -58,12 +51,17 @@ class _RegistrationState extends State<Registration> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/bg.jpg'),
+              fit: BoxFit.cover,
+            ),
             gradient: LinearGradient(
-                colors: [const Color(0XFFF95A3B), const Color(0XFFF96713)],
-                begin: FractionalOffset.topLeft,
-                end: FractionalOffset.bottomCenter,
-                stops: [0.0, 0.8],
-                tileMode: TileMode.mirror),
+              colors: [const Color(0XFFF95A3B), const Color(0XFFF96713)],
+              begin: FractionalOffset.topLeft,
+              end: FractionalOffset.bottomCenter,
+              stops: [0.0, 0.8],
+              tileMode: TileMode.mirror,
+            ),
           ),
           child: Center(
             child: SingleChildScrollView(
@@ -77,69 +75,69 @@ class _RegistrationState extends State<Registration> {
                     controller: emailController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorStyle: TextStyle(color: Colors.white),
-                        errorText: _isNotValidate ? "Enter Proper Info" : null,
-                        hintText: "Email",
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
+                      filled: true,
+                      fillColor: Colors.white,
+                      errorStyle: TextStyle(color: Colors.white),
+                      errorText: _isNotValidate ? "Enter Proper Info" : null,
+                      hintText: "Email",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
                   ).p4().px24(),
                   TextField(
                     controller: passwordController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.copy),
-                          onPressed: () {
-                            final data =
-                                ClipboardData(text: passwordController.text);
-                            Clipboard.setData(data);
-                          },
-                        ),
-                        prefixIcon: IconButton(
-                          icon: Icon(Icons.password),
-                          onPressed: () {
-                            String passGen = generatePassword();
-                            passwordController.text = passGen;
-                            setState(() {});
-                          },
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorStyle: TextStyle(color: Colors.white),
-                        errorText: _isNotValidate ? "Enter Proper Info" : null,
-                        hintText: "Password",
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)))),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.copy),
+                        onPressed: () {
+                          final data =
+                              ClipboardData(text: passwordController.text);
+                          Clipboard.setData(data);
+                        },
+                      ),
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.password),
+                        onPressed: () {
+                          String passGen = generatePassword();
+                          passwordController.text = passGen;
+                          setState(() {});
+                        },
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      errorStyle: TextStyle(color: Colors.white),
+                      errorText: _isNotValidate ? "Enter Proper Info" : null,
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
                   ).p4().px24(),
-                  HStack([
-                    GestureDetector(
-                      onTap: () => {registerUser(context)},
-                      child: VxBox(
-                              child: "Register".text.white.makeCentered().p16())
+                  GestureDetector(
+                    onTap: () => {registerUser(context)},
+                    child: HStack([
+                      VxBox(child: "Register".text.white.makeCentered().p16())
                           .green600
                           .roundedLg
                           .make()
                           .px16()
                           .py16(),
-                    ),
-                  ]),
+                    ]),
+                  ),
                   GestureDetector(
                     onTap: () {
-                      print("Sign In");
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignInPage()));
+                        context,
+                        MaterialPageRoute(builder: (context) => SignInPage()),
+                      );
                     },
                     child: HStack([
                       "Already Registered?".text.make(),
-                      " Sign In".text.white.make()
+                      " Sign In".text.green700.make(),
                     ]).centered(),
-                  )
+                  ),
                 ],
               ),
             ),

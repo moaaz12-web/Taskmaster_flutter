@@ -42,7 +42,7 @@ class _DashboardState extends State<Dashboard> {
       };
 
       var response = await http.post(
-        Uri.http('192.168.100.49:3000', '/createToDo'),
+        Uri.http(url, '/createToDo'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(regBody),
       );
@@ -73,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
     print("USER ID IS" + userId);
 
     var response = await http.post(
-      Uri.http('192.168.100.49:3000', '/getUserTodoList'),
+      Uri.http(url, '/getUserTodoList'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(regBody),
     );
@@ -99,7 +99,7 @@ class _DashboardState extends State<Dashboard> {
     var regBody = {"id": id};
 
     var response = await http.post(
-      Uri.http('192.168.100.49:3000', '/deleteTodo'),
+      Uri.http(url, '/deleteTodo'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(regBody),
     );
@@ -127,7 +127,7 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(fontSize: 16),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Color.fromARGB(255, 196, 194, 194),
                   hintText: "Title",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -140,7 +140,7 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(fontSize: 16),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Color.fromARGB(255, 196, 194, 194),
                   hintText: "Description",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),

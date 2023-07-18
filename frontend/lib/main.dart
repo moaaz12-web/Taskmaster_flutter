@@ -3,9 +3,11 @@ import 'package:flutter_todo_app/dashboard.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'loginPage.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await dotenv.load();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(MyApp(
     token: prefs.getString('token'),

@@ -21,7 +21,6 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initSharedPref();
   }
@@ -31,15 +30,13 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void loginUser() async {
-    print('Executing loginUser function');
-
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
       var reqBody = {
         "email": emailController.text,
         "password": passwordController.text
       };
 
-      var response = await http.post(Uri.http('192.168.100.49:3000', '/login'),
+      var response = await http.post(Uri.http(url, '/login'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode(reqBody));
 
@@ -58,80 +55,90 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
+      child: Scaffold(
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/bg.jpg'),
+              fit: BoxFit.cover,
+            ),
+            gradient: LinearGradient(
               colors: [const Color(0XFFF95A3B), const Color(0XFFF96713)],
               begin: FractionalOffset.topLeft,
               end: FractionalOffset.bottomCenter,
               stops: [0.0, 0.8],
-              tileMode: TileMode.mirror),
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CommonLogo(),
-                HeightBox(10),
-                "Sign in".text.size(16).yellow100.make(),
-                TextField(
-                  controller: emailController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
+              tileMode: TileMode.mirror,
+            ),
+          ),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CommonLogo(),
+                  HeightBox(10),
+                  "Sign in".text.size(16).yellow100.make(),
+                  TextField(
+                    controller: emailController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
                       hintText: "Email",
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
                       border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0)))),
-                ).p4().px24(),
-                TextField(
-                  controller: passwordController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
+                  ).p4().px24(),
+                  TextField(
+                    controller: passwordController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
                       hintText: "Password",
                       errorText: _isNotValidate ? "Enter Proper Info" : null,
                       border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0)))),
-                ).p4().px24(),
-                GestureDetector(
-                  onTap: () {
-                    loginUser();
-                  },
-                  child: HStack([
-                    VxBox(child: "LogIn".text.white.makeCentered().p16())
-                        .green600
-                        .roundedLg
-                        .make(),
-                  ]),
-                ),
-              ],
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
+                  ).p4().px24(),
+                  GestureDetector(
+                    onTap: () {
+                      loginUser();
+                    },
+                    child: HStack([
+                      VxBox(child: "LogIn".text.white.makeCentered().p16())
+                          .green600
+                          .roundedLg
+                          .make(),
+                    ]),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        bottomNavigationBar: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Registration()),
+            );
+          },
+          child: Container(
+            height: 25,
+            color: Colors.lightBlue,
+            child: Center(
+              child:
+                  "Create a new Account..! Sign Up".text.white.makeCentered(),
             ),
           ),
         ),
       ),
-      bottomNavigationBar: GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Registration()));
-        },
-        child: Container(
-            height: 25,
-            color: Colors.lightBlue,
-            child: Center(
-                child: "Create a new Account..! Sign Up"
-                    .text
-                    .white
-                    .makeCentered())),
-      ),
-    ));
+    );
   }
 }
